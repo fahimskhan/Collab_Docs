@@ -13,31 +13,29 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
-      background: linear-gradient(to bottom, #7986cb 0%, #9fa8da 100%);
+      background: linear-gradient(to bottom, #3949ab 0%, #9fa8da 100%);
     }
 
     .home-tag {
       display: flex;
-      justify-content: center;
+      justify-content: space-around;
       align-items: center;
       flex-direction: column;
-      color: #7986cb;
+      color: #3949ab;
       background: linear-gradient(to bottom, whitesmoke 0%, white 100%);
-      box-shadow: 5px 5px 1px slategrey;
-      height: 200px;
+      box-shadow: 5px 5px 1px;
+      height: 500px;
       width: 500px;
     }
 
     .home-icon {
-      color: #7986cb;
+      color: #3949ab;
     }
 
     .header {
-      font-family: sans-serif;
+      font-family: "Roboto", "Helvetica", "Arial", sans-serif;
       font-weight: lighter;
-      margin-left: 10px;
-      margin-right: 10px;
-      font-size: x-large;
+      font-size: xx-large;
     }
 
     .nav-icons {
@@ -50,7 +48,11 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      height: 50px;
+      height: 72px;
+    }
+
+    .page-backdrop {
+      background: linear-gradient(to bottom, whitesmoke 0%, white 100%);
     }
 
     #content {
@@ -69,7 +71,7 @@
       height: 500px;
       margin-left: 20px;
       margin-right: 20px;
-      background: linear-gradient(to bottom, whitesmoke 0%, white 100%);
+      background: white;
       box-shadow: 5px 5px 1px lightgrey;
     }
 
@@ -124,6 +126,7 @@
     .dropdown:hover .dropbtn {background-color: #3e8e41;}
   </style>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
 </head>
 <body style="overflow: hidden; background-color: rgba(0,0,0,0); margin: 0" >
   <div id="App"></div>
@@ -142,11 +145,12 @@ import Root from './components/Root';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 // import blue from '@material-ui/core/colors/blue';
 // import purple from '@material-ui/core/colors/purple';
+//import HomeContainer from './container/HomeContainer';
 
 const theme = createMuiTheme({
   palette: {
     primary: {
-      main: '#7986cb'
+      main: '#3949ab'
     },
     secondary: {
       main: '#9fa8da'
