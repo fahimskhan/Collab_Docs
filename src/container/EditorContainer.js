@@ -2,6 +2,7 @@ import React from 'react';
 // import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Editor, EditorState, RichUtils } from 'draft-js';
+import { Link } from 'react-router-dom';
 import { onChange } from '../actions/index';
 
 import Button from '@material-ui/core/Button';
@@ -102,18 +103,28 @@ class EditorContainer extends React.Component {
 
   render() {
     return (
-      <div>
-        <AppBar position='absolute'>Collab Docs</AppBar>
+      <div className="content">
+        <AppBar className="appbar" position='absolute'>
+          <nav>
+              <div className="nav-wrapper">
+                <Link to='/'><i className="material-icons nav-icons">home</i></Link>
+                <h1 className="header">Collab Docs</h1>
+                <i className="material-icons nav-icons">save</i>
+              </div>
+          </nav>
+          </AppBar>
+        <br></br>
+        <br></br>
         <br></br>
         <br></br>
         <div className="buttons">
-          <Button variant='text' color='primary' onClick={this._onBoldClick.bind(this)}>Bold</Button>
-          <Button variant='text' color='primary' onClick={this._onItalicClick.bind(this)}>Italicize</Button>
-          <Button variant='text' color='primary' onClick={this._onUnderlineClick.bind(this)}>Underline</Button>
-          <Button variant='text' color='primary' onClick={this._createBulletPoints.bind(this)}>Bullet points</Button>
-          <Button variant='text' color='primary' onClick={this._createNumberPoints.bind(this)}>Number points</Button>
+          <Button variant='text' color='primary' onClick={this._onBoldClick.bind(this)}><i className='material-icons'>format_bold</i></Button>
+          <Button variant='text' color='primary' onClick={this._onItalicClick.bind(this)}><i className='material-icons'>format_italic</i></Button>
+          <Button variant='text' color='primary' onClick={this._onUnderlineClick.bind(this)}><i className='material-icons'>format_underlined</i></Button>
+          <Button variant='text' color='primary' onClick={this._createBulletPoints.bind(this)}><i className='material-icons'>format_list_bulleted</i></Button>
+          <Button variant='text' color='primary' onClick={this._createNumberPoints.bind(this)}><i className='material-icons'>format_list_numbered</i></Button>
           <div className="dropdown">
-          <Button variant='text' color='primary'>Font Size</Button>
+          <Button variant='text' color='primary'><i className='material-icons'>format_size</i></Button>
             <div className="dropdown-content">
               <a href="#" onClick={this._onFontSizeClick.bind(this)} value='10'>10</a>
               <a href="#" onClick={this._onFontSizeClick.bind(this)} value='12'>12</a>
@@ -121,7 +132,7 @@ class EditorContainer extends React.Component {
             </div>
           </div>
           <div className="dropdown">
-            <Button variant='text' color='primary'>Font Color</Button>
+            <Button variant='text' color='primary'><i className='material-icons'>format_color_text</i></Button>
             <div className="dropdown-content">
               <a href="#" onClick={this._onFontColorClick.bind(this)} value='black'>black</a>
               <a href="#" onClick={this._onFontColorClick.bind(this)} value='red'>red</a>
@@ -129,12 +140,12 @@ class EditorContainer extends React.Component {
             </div>
           </div>
           <div className="dropdown">
-            <Button variant='text' color='primary'>Align Text</Button>
+            <Button variant='text' color='primary'><i className='material-icons'>format_align_justify</i></Button>
             <div className="dropdown-content">
               {/* //zzzz */}
-              <a href="#" onClick={this._onTextAlignClick.bind(this)} value='center'>Align Center</a>
-              <a href="#" onClick={this._onTextAlignClick.bind(this)} value='left'>Align Left</a>
-              <a href="#" onClick={this._onTextAlignClick.bind(this)} value='right'>Alignt Right</a>
+              <a href="#" onClick={this._onTextAlignClick.bind(this)} value='center'><i className='material-icons'>format_align_center</i></a>
+              <a href="#" onClick={this._onTextAlignClick.bind(this)} value='left'><i className='material-icons'>format_align_left</i></a>
+              <a href="#" onClick={this._onTextAlignClick.bind(this)} value='right'><i className='material-icons'>format_align_right</i></a>
             </div>
           </div>
         </div>
