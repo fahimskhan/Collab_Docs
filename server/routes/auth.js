@@ -1,68 +1,49 @@
-var express = require('express');
-var router = express.Router();
+import express from 'express';
+const router = express.Router();
+import models from '../models/models.js';
 
-var models = require('../models/models.js');
 
-module.exports = function(passport) {
-  // GET Login page
-  router.get('/login', function(req, res) {
-    res.render('login');
-  });
+export default function(passport) {
 
   // POST Login page
-  router.post('/login', passport.authenticate('local', {
-    successRedirect: '/documentPortal',
-    failureRedirect: '/login'
-  }));
-
-  // GET registration page
-  router.get('/signup', function(req, res) {
-    res.render('signup');
+  router.post('/login', passport.authenticate('local') , function(req, res) {
+    res.send(req.user);
   });
 
   // POST registration page
-  var validateReq = function(userData) {
-    if (userData.password !== userData.passwordRepeat) {
-      return "Passwords don't match.";
-    }
-
-    if (!userData.email) {
-      return "Please enter a email.";
-    }
-
-    if (!userData.password) {
-      return "Please enter a password.";
-    }
-  };
+  // const validateReq = function(userData) {
+  //   if (!userData.username) {
+  //     return "Please enter a username.";
+  //   }
+  //
+  //   if (!userData.password) {
+  //     return "Please enter a password.";
+  //   }
+  // };
 
   router.post('/signup', function(req, res) {
     // validation step
-    var error = validateReq(req.body);
-    if (error) {
-      return res.render('signup', {
-        error: error
-      });
-    }
-    var u = new models.User({
+    // var error = validateReq(req.body);
+    // if (error) {
+    //   return res.send(error);
+    // }
+    const newUser = new models.User({
       username: req.body.username,
       password: req.body.password,
-      name: req.body.name,
-      email: req.body.email
     });
-    u.save(function(err, user) {
-      if (err) {
-        console.log(err);
-        res.status(500).redirect('/signup');
-        return;
-      }
-      console.log("Saved User: ", user);
-      res.redirect('/login');
-    });
+    newUser.save()
+    .then(response => {
+      res.send(response);
+    })
+    .catch(error => {
+      res.send(error);
+    })
   });
 
+// Havent implemented button for logout yet
   router.get('/logout', function(req, res){
     req.logout();
-    res.redirect('/login');
+    res.send('logged out!'); //zzzz is this okay?
   });
 
 
