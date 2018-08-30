@@ -2,130 +2,8 @@
 <html lang="en">
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-  <style>
-
-    * {
-    box-sizing: border-box;
-    }
-
-    .home-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background: linear-gradient(to bottom, #3949ab 0%, #9fa8da 100%);
-    }
-
-    .home-tag {
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      flex-direction: column;
-      color: #3949ab;
-      background: linear-gradient(to bottom, whitesmoke 0%, white 100%);
-      box-shadow: 5px 5px 1px;
-      height: 500px;
-      width: 500px;
-    }
-
-    .home-icon {
-      color: #3949ab;
-    }
-
-    .header {
-      font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-      font-weight: lighter;
-      font-size: xx-large;
-    }
-
-    .nav-icons {
-      margin-left: 10px;
-      margin-right: 10px;
-      color: white;
-    }
-
-    .nav-wrapper {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 72px;
-    }
-
-    .page-backdrop {
-      background: linear-gradient(to bottom, whitesmoke 0%, white 100%);
-    }
-
-    #content {
-      width: 600px;
-      margin: 0 auto;
-      /* text-align: right; */
-      font-size: 12px;
-      color: black;
-    }
-
-    .editor {
-      padding-top: 40px;
-      padding-bottom: 40px;
-      padding-left: 60px;
-      padding-right: 60px;
-      height: 500px;
-      margin-left: 20px;
-      margin-right: 20px;
-      background: white;
-      box-shadow: 5px 5px 1px lightgrey;
-    }
-
-    .buttons {
-      margin-top: 4px;
-      text-align: center;
-    }
-
-    .align-right div {
-      text-align: right;
-    }
-    .align-center div {
-      text-align: center;
-    }
-    .align-left div {
-      text-align: left;
-    }
-
-    .dropbtn {
-      background-color: #4CAF50;
-      color: white;
-      padding: 5px;
-      font-size: 5px;
-      border: none;
-    }
-
-    .dropdown {
-      position: relative;
-      display: inline-block;
-    }
-
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      background-color: #f1f1f1;
-      min-width: 100px;
-      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-      z-index: 1;
-    }
-
-    .dropdown-content a {
-      color: black;
-      padding: 12px 16px;
-      text-decoration: none;
-      display: block;
-    }
-
-    .dropdown-content a:hover {background-color: #ddd;}
-
-    .dropdown:hover .dropdown-content {display: block;}
-
-    .dropdown:hover .dropbtn {background-color: #3e8e41;}
-  </style>
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="./styles/main.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
 </head>
 <body style="overflow: hidden; background-color: rgba(0,0,0,0); margin: 0" >
@@ -133,49 +11,50 @@
 </body>
 
 <script type="text/jsx">
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { AppContainer } from 'react-hot-loader';
-//import { Provider } from 'react-redux';
-import { createStore } from 'redux';
-//import App from './components/App';
-import index from './reducers'
-// import { BrowserRouter as Router, Route } from 'react-router-dom';
-import Root from './components/Root';
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-// import blue from '@material-ui/core/colors/blue';
-// import purple from '@material-ui/core/colors/purple';
-//import HomeContainer from './container/HomeContainer';
+  import React from 'react';
+  import ReactDOM from 'react-dom';
+  import { AppContainer } from 'react-hot-loader';
+  //import { Provider } from 'react-redux';
+  import { createStore, applyMiddleware } from 'redux';
+  //import App from './components/App';
+  import index from './reducers';
+  // import { BrowserRouter as Router, Route } from 'react-router-dom';
+  import Root from './components/Root';
+  import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+  // import blue from '@material-ui/core/colors/blue';
+  // import purple from '@material-ui/core/colors/purple';
+  //import HomeContainer from './container/HomeContainer';
+  import reduxThunk from 'redux-thunk';
 
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      main: '#3949ab'
+  const theme = createMuiTheme({
+    palette: {
+      primary: {
+        main: '#3949ab'
+      },
+      secondary: {
+        main: '#9fa8da'
+      },
     },
-    secondary: {
-      main: '#9fa8da'
+    status: {
+      danger: 'orange',
     },
-  },
-  status: {
-    danger: 'orange',
-  },
-});
+  });
 
-const store = createStore(index);
+  const store = createStore(index, {}, applyMiddleware(reduxThunk));
 
-const render = () => {
-  ReactDOM.render(
-    <AppContainer>
-      <MuiThemeProvider theme={theme}>
-        <Root store={store}/>
-      </MuiThemeProvider>
-    </AppContainer>,
-    document.getElementById('App'));
-}
+  const render = () => {
+    ReactDOM.render(
+      <AppContainer>
+        <MuiThemeProvider theme={theme}>
+          <Root store={store}/>
+        </MuiThemeProvider>
+      </AppContainer>,
+      document.getElementById('App'));
+  }
 
-render();
-if (module.hot) {
-  module.hot.accept(render);
-}
+  render();
+  if (module.hot) {
+    module.hot.accept(render);
+  }
 </script>
 </html>
