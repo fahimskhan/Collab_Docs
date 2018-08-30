@@ -129,11 +129,20 @@ class EditorContainer extends React.Component {
             <AppBar className="appbar" position='absolute'>
               <nav>
                   <div className="nav-wrapper">
-                    <NavLink to='/' style={{textDecoration: 'none'}}>
-                      <i className="material-icons nav-icons">
-                        home
-                      </i>
-                    </NavLink>
+                    <div>
+                      <NavLink to='/documents' style={{textDecoration: 'none'}}>
+                        <i className="material-icons nav-icons">
+                          view_list
+                        </i>
+                      </NavLink>
+                      <div className="dropdown">
+                        <i className='material-icons nav-icons'>person</i>
+                        <div className="dropdown-content">
+                          <a href="#">{this.props.user.username}</a>
+                        </div>
+                      </div>
+                    </div>
+
                     <h1 className="header">Collab Docs</h1>
                     <i className="material-icons nav-icons">save</i>
                   </div>

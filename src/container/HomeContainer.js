@@ -24,7 +24,7 @@ class HomeContainer extends React.Component {
           <TextField type='password' label='Password' onChange={(e) => this.props.passwordOnChange(e)} value={this.props.password}/>
           {
             this.props.loggedIn
-            ? <Redirect to="/editor"/>
+            ? <Redirect to="/documents"/>
             : <span></span>
           }
           <div>
