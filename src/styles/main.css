@@ -56,6 +56,18 @@ box-sizing: border-box;
   background: linear-gradient(to bottom, whitesmoke 0%, white 100%);
 }
 
+.inputFieldAndButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 400px;
+}
+
+.inputFieldAndButton Button {
+  margin-top: 20px;
+}
+
 #content {
   width: 600px;
   margin: 0 auto;

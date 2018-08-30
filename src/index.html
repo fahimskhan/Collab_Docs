@@ -17,7 +17,7 @@
   //import { Provider } from 'react-redux';
   import { createStore, applyMiddleware } from 'redux';
   //import App from './components/App';
-  import index from './reducers';
+  import index, { webSocketMiddleware } from './reducers';
   // import { BrowserRouter as Router, Route } from 'react-router-dom';
   import Root from './components/Root';
   import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
@@ -40,7 +40,7 @@
     },
   });
 
-  const store = createStore(index, {}, applyMiddleware(reduxThunk));
+  const store = createStore(index, {}, applyMiddleware(reduxThunk, webSocketMiddleware));
 
   const render = () => {
     ReactDOM.render(

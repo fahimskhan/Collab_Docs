@@ -24,7 +24,11 @@ import models from './models/models';
 import auth from './routes/auth';
 //import routes from './routes/index');
 
+import socketIO from 'socket.io';
+//import {auth, document} from './socket-api'
+
 const app = express();
+const server = http.Server(app);
 
 import mongoose from 'mongoose';
 mongoose.connect(process.env.MONGODB_URI);
@@ -95,6 +99,17 @@ app.use('/', auth(passport));
 // });
 
 
-app.listen(process.env.PORT || 3000);
+//app.listen(process.env.PORT || 3000);
+
+
+const io = socketIO(server)
+server.listen(process.env.PORT || 3000);
+io.on('connection', function(socket) {
+  socket.emit('message', {hello: "world"})
+  socket.on('login', function(data, cb) {
+    console.log(data);
+    cb({user_id: 123});
+  })
+})
 
 console.log('Server running at port 3000');
