@@ -9,9 +9,7 @@ import * as actions from '../actions/index';
 class HomeContainer extends React.Component {
 
   componentDidMount() {
-    console.log('1 ', this.props.username);
-    this.props.logoutOnHome(); //zzzz this is working but render is rendering twice
-    console.log('2 ', this.props.username);
+    this.props.logoutOnHome();
   }
 
   render() {
@@ -37,13 +35,6 @@ class HomeContainer extends React.Component {
               </Button>
             </NavLink>
           </div>
-          {/* {
-            this.props.user
-            ? this.props.user.username && this.props.user.password
-            ? <Redirect to="/editor"/>
-            : <span></span> //<span className='warning-label'>Invalid login!</span> //zzzz how to show a warning here??
-            : <span></span>
-          } */}
         </div>
       </div>
 

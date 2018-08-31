@@ -1,5 +1,4 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
 import { Redirect } from 'react-router';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
@@ -16,8 +15,8 @@ import TableCell from '@material-ui/core/TableCell';
 class DocumentsContainer extends React.Component {
 
   componentDidMount() {
-    this.props.getAllDocs(this.props.user);
-    console.log(this.props.allDocs);
+    this.props.getSharedDocs(this.props.user);
+    this.props.getMyDocs(this.props.user);
   }
 
   render() {
@@ -36,7 +35,7 @@ class DocumentsContainer extends React.Component {
                         </i>
                       </NavLink>
                       <div className="dropdown">
-                        <i className='material-icons nav-icons'>person</i>
+                        <i className='material-icons nav-icons'>person_pin</i>
                         <div className="dropdown-content">
                           <a href="#">{this.props.user.username}</a>
                         </div>
@@ -64,38 +63,84 @@ class DocumentsContainer extends React.Component {
                 <Table>
                   <TableHead>
                     <TableRow>
+                      <TableCell><i className="material-icons">person</i></TableCell>
+                      <TableCell></TableCell>
+                      <TableCell></TableCell>
+                      <TableCell></TableCell>
+                    </TableRow>
+                    <TableRow>
                       <TableCell>Doc Name</TableCell>
                       <TableCell>Doc Key</TableCell>
-                      <TableCell>Edit</TableCell>
-                      <TableCell>Delete</TableCell>
+                      <TableCell></TableCell>
+                      <TableCell></TableCell>
                     </TableRow>
                   </TableHead>
-                    <TableBody>
-                      {
-                        this.props.allDocs && this.props.allDocs.map(doc => (
-                          <TableRow>
-                            <TableCell>{doc.name}</TableCell>
-                            <TableCell>{doc._id}</TableCell>
-                            <TableCell>
-                              <NavLink to='/editor' style={{textDecoration: 'none'}}>
-                                <Button onClick={() => this.props.editDoc(doc._id, this.props.user)}>
-                                  <i className="material-icons">
-                                    edit
-                                  </i>
-                                </Button>
-                              </NavLink>
-                            </TableCell>
-                            <TableCell>
-                              <Button onClick={() => this.props.deleteDoc(doc._id, this.props.user)}>
+                  <TableBody>
+                    {
+                      this.props.myDocs && this.props.myDocs.map(doc => (
+                        <TableRow>
+                          <TableCell>{doc.name}</TableCell>
+                          <TableCell>{doc._id}</TableCell>
+                          <TableCell>
+                            <NavLink to='/editor' style={{textDecoration: 'none'}}>
+                              <Button onClick={() => this.props.editDoc(doc._id)}>
                                 <i className="material-icons">
-                                  delete_forever
+                                  edit
                                 </i>
                               </Button>
-                            </TableCell>
-                          </TableRow>
-                        ))
-                      }
-                    </TableBody>
+                            </NavLink>
+                          </TableCell>
+                          <TableCell>
+                            <Button onClick={() => this.props.deleteDoc(doc._id, this.props.user)}>
+                              <i className="material-icons">
+                                delete_forever
+                              </i>
+                            </Button>
+                          </TableCell>
+                        </TableRow>
+                      ))
+                    }
+                  </TableBody>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell><i className="material-icons">people</i></TableCell>
+                      <TableCell></TableCell>
+                      <TableCell></TableCell>
+                      <TableCell></TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>Doc Name</TableCell>
+                      <TableCell>Doc Key</TableCell>
+                      <TableCell></TableCell>
+                      <TableCell></TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {
+                      this.props.sharedDocs && this.props.sharedDocs.map(doc => (
+                        <TableRow>
+                          <TableCell>{doc.name}</TableCell>
+                          <TableCell>{doc._id}</TableCell>
+                          <TableCell>
+                            <NavLink to='/editor' style={{textDecoration: 'none'}}>
+                              <Button onClick={() => this.props.editDoc(doc._id)}>
+                                <i className="material-icons">
+                                  edit
+                                </i>
+                              </Button>
+                            </NavLink>
+                          </TableCell>
+                          <TableCell>
+                            <Button onClick={() => this.props.removeDoc(doc._id, this.props.user)}>
+                              <i className="material-icons">
+                                remove
+                              </i>
+                            </Button>
+                          </TableCell>
+                        </TableRow>
+                      ))
+                    }
+                  </TableBody>
                 </Table>
               </div>
             </div>
@@ -111,7 +156,8 @@ const mapStateToProps = (state) => {
   return {
     user: state.user,
     loggedIn: state.loggedIn,
-    allDocs: state.allDocs,
+    myDocs: state.myDocs,
+    sharedDocs: state.sharedDocs,
   };
 };
 

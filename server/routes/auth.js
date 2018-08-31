@@ -5,7 +5,6 @@ import models from '../models/models.js';
 
 export default function(passport) {
 
-  // POST Login page
   router.post('/login', passport.authenticate('local') , function(req, res) {
     res.send(req.user);
   });
@@ -40,7 +39,7 @@ export default function(passport) {
     })
   });
 
-// Havent implemented button for logout yet
+
   router.get('/logout', function(req, res){
     req.logout();
     res.send('logged out!'); //zzzz is this okay?

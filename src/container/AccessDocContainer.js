@@ -1,5 +1,4 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
 import { Redirect } from 'react-router';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
@@ -25,7 +24,7 @@ class AccessDocContainer extends React.Component {
                       </i>
                     </NavLink>
                     <div className="dropdown">
-                      <i className='material-icons nav-icons'>person</i>
+                      <i className='material-icons nav-icons'>person_pin</i>
                       <div className="dropdown-content">
                         <a href="#">{this.props.user.username}</a>
                       </div>
@@ -45,10 +44,12 @@ class AccessDocContainer extends React.Component {
             <br></br>
             <div className='page-backdrop'>
               <div className='inputFieldAndButton'>
-                <TextField type='text' label='Doc Key' />
-                <Button className='buttons' variant='contained' color='primary' >
-                  Enter
-                </Button>
+                <TextField type='text' label='Doc Key' onChange={(e) => this.props.docKeyOnChange(e)} value={this.props.docKey}/>
+                <NavLink to='/documents' style={{textDecoration: 'none'}}>
+                  <Button className='buttons' variant='contained' color='primary' onClick={() => this.props.accessDocButton(this.props.docKey, this.props.user)}>
+                    Access Doc
+                  </Button>
+                </NavLink>
               </div>
             </div>
           </div>
@@ -63,6 +64,7 @@ const mapStateToProps = (state) => {
   return {
     user: state.user,
     loggedIn: state.loggedIn,
+    docKey: state.docKey,
   };
 };
 
