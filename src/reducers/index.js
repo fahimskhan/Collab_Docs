@@ -1,4 +1,4 @@
-import { EditorState } from 'draft-js';
+import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
 
 import io from 'socket.io-client';
 const socket = io('http://localhost:3000');
@@ -16,21 +16,57 @@ const initState = {
   password: '',
   user: {},
   loggedIn: false,
+  docName: '',
+  allDocs: [],
+  currentDocId: '',
 }
 
+console.log('this is what you want to see ', initState.editorState);
+
 export const webSocketMiddleware = store => next => action => {
-  if (action.type === 'NOTHING') {
-    console.log('@@', action);
-    socket.emit('login', {/*pass data to backend here*/}, (data)=> {
-      console.log('data from server', data);
+  if (action.type === 'CREATE_DOC') {
+    console.log('ROHAN ', action.user);
+    const editorState = EditorState.createEmpty();
+    socket.emit('createDoc', {name: action.docName, content: JSON.stringify(convertToRaw(editorState.getCurrentContent())), author: action.user._id}, () => {
       store.dispatch({
-        type: 'LOGIN_STATE',
-        payload: data,
+        type: 'CLEAR_DOC_NAME',
       })
     })
     return;
-  } else if (action.type === 'STOP_TIMER') {
-    clearInterval(action.interval);
+  } else if (action.type === 'GET_ALL_DOCS') {
+    console.log('inside get all docs socket call');
+    socket.emit('getAllDocs', {author: action.user._id}, (data) => {
+      console.log('has data', data);
+      store.dispatch({
+        type: 'SHOW_ALL_DOCS',
+        allDocs: data,
+      })
+    })
+    return;
+  } else if (action.type === 'DELETE_DOC') {
+    socket.emit('deleteDoc', {id: action.docId}, () => {
+      store.dispatch({
+        type: 'GET_ALL_DOCS',
+        user: action.user,
+      })
+    })
+    return;
+  } else if (action.type === 'EDIT_DOC') {
+    socket.emit('editDoc', {id: action.docId}, (data) => {
+      const editorState = EditorState.createWithContent(convertFromRaw(JSON.parse(data.content)))
+      store.dispatch({
+        type: 'SHOW_EDITOR',
+        editorState: editorState,
+        currentDocId: data._id,
+      })
+    })
+    return;
+  } else if (action.type === 'SAVE_DOC') {
+    console.log('@@@@', action.editorState);
+    socket.emit('saveDoc', {id: action.currentDocId, content: JSON.stringify(convertToRaw(action.editorState.getCurrentContent()))}, () => {
+      //zzzz something
+    })
+    return;
   }
   next(action);
 };
@@ -52,6 +88,29 @@ export default (state = initState, action) => {
       return {
         ...state,
         password: action.password,
+      }
+    case 'DOC_NAME_ON_CHANGE':
+      return {
+        ...state,
+        docName: action.docName,
+      }
+    case 'CLEAR_DOC_NAME':
+      return {
+        ...state,
+        docName: '',
+      };
+    case 'SHOW_ALL_DOCS':
+      return {
+        ...state,
+        allDocs: action.allDocs,
+        currentDocId: '',
+        editorState: EditorState.createEmpty(),
+      };
+    case 'SHOW_EDITOR':
+      return {
+        ...state,
+        editorState: action.editorState,
+        currentDocId: action.currentDocId,
       }
     case 'REGISTER':
       return {

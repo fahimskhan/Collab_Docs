@@ -22,6 +22,7 @@ import session from 'express-session';
 import bodyParser from 'body-parser';
 import models from './models/models';
 import auth from './routes/auth';
+import document from './routes/socket_api';
 //import routes from './routes/index');
 
 import socketIO from 'socket.io';
@@ -105,11 +106,9 @@ app.use('/', auth(passport));
 const io = socketIO(server)
 server.listen(process.env.PORT || 3000);
 io.on('connection', function(socket) {
-  socket.emit('message', {hello: "world"})
-  socket.on('login', function(data, cb) {
-    console.log(data);
-    cb({user_id: 123});
-  })
+  document(socket);
 })
+
+
 
 console.log('Server running at port 3000');
