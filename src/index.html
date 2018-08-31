@@ -14,16 +14,10 @@
   import React from 'react';
   import ReactDOM from 'react-dom';
   import { AppContainer } from 'react-hot-loader';
-  //import { Provider } from 'react-redux';
   import { createStore, applyMiddleware } from 'redux';
-  //import App from './components/App';
   import index, { webSocketMiddleware } from './reducers';
-  // import { BrowserRouter as Router, Route } from 'react-router-dom';
   import Root from './components/Root';
   import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-  // import blue from '@material-ui/core/colors/blue';
-  // import purple from '@material-ui/core/colors/purple';
-  //import HomeContainer from './container/HomeContainer';
   import reduxThunk from 'redux-thunk';
 
   const theme = createMuiTheme({

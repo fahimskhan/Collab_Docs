@@ -29,30 +29,50 @@ export const docNameOnChange = (e) => dispatch => {
   })
 };
 
+export const docKeyOnChange = (e) => dispatch => {
+  dispatch ({
+    type: 'DOC_KEY_ON_CHANGE',
+    docKey: e.target.value,
+  })
+};
+
 export const createDocButton = (docName, user) => dispatch => {
   dispatch ({
     type: 'CREATE_DOC',
     docName: docName,
     user: user,
   })
-}
+};
 
-export const getAllDocs = (user) => dispatch => {
-  console.log('inside get all docs dispatch');
+export const accessDocButton = (docKey, user) => dispatch => {
   dispatch ({
-    type: 'GET_ALL_DOCS',
+    type: 'ACCESS_DOC',
+    docKey: docKey,
     user: user,
   })
-}
+};
+
+export const getMyDocs = (user) => dispatch => {
+  dispatch ({
+    type: 'GET_MY_DOCS',
+    user: user,
+  })
+};
+
+export const getSharedDocs = (user) => dispatch => {
+  dispatch ({
+    type: 'GET_SHARED_DOCS',
+    user: user,
+  })
+};
 
 export const editDoc = (docId, user) => dispatch => {
-  console.log('editing the doc...')
   dispatch ({
     type: 'EDIT_DOC',
     docId: docId,
     user: user,
   })
-}
+};
 
 export const saveDoc = (editorState, currentDocId) => dispatch => {
   dispatch ({
@@ -60,16 +80,23 @@ export const saveDoc = (editorState, currentDocId) => dispatch => {
     editorState: editorState,
     currentDocId: currentDocId,
   })
-}
+};
 
 export const deleteDoc = (docId, user) => dispatch => {
-  console.log("deleting the doc...")
   dispatch ({
     type: "DELETE_DOC",
     docId: docId,
     user: user,
   })
-}
+};
+
+export const removeDoc = (docId, user) => dispatch => {
+  dispatch ({
+    type: "REMOVE_DOC",
+    docId: docId,
+    user: user,
+  })
+};
 
 export const registerButton = (username, password) => async dispatch => {
   const res = await axios.post(url+'/signup', {

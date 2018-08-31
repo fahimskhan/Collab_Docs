@@ -1,5 +1,4 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
 import { EditorState } from 'draft-js';
 import { Redirect } from 'react-router';
 import { connect } from 'react-redux';
@@ -26,7 +25,7 @@ class MakeDocContainer extends React.Component {
                         </i>
                       </NavLink>
                       <div className="dropdown">
-                        <i className='material-icons nav-icons'>person</i>
+                        <i className='material-icons nav-icons'>person_pin</i>
                         <div className="dropdown-content">
                           <a href="#">{this.props.user.username}</a>
                         </div>
@@ -49,7 +48,7 @@ class MakeDocContainer extends React.Component {
                 <TextField type='text' label='Doc Name' onChange={(e) => this.props.docNameOnChange(e)} value={this.props.docName}/>
                 <NavLink to='/documents' style={{textDecoration: 'none'}}>
                   <Button className='buttons' variant='contained' color='primary' onClick={() => {this.props.createDocButton(this.props.docName, this.props.user)}}>
-                    Create
+                    Create Doc
                   </Button>
                 </NavLink>
               </div>
@@ -64,7 +63,6 @@ class MakeDocContainer extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    editorState: state.editorState,
     user: state.user,
     loggedIn: state.loggedIn,
     docName: state.docName,

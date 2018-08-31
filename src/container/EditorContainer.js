@@ -1,5 +1,4 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
 import { Redirect } from 'react-router';
 import { connect } from 'react-redux';
 import { Editor, EditorState, RichUtils } from 'draft-js';
@@ -136,7 +135,7 @@ class EditorContainer extends React.Component {
                         </i>
                       </NavLink>
                       <div className="dropdown">
-                        <i className='material-icons nav-icons'>person</i>
+                        <i className='material-icons nav-icons'>person_pin</i>
                         <div className="dropdown-content">
                           <a href="#">{this.props.user.username}</a>
                         </div>
