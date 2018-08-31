@@ -1,5 +1,6 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
+import { EditorState } from 'draft-js';
 import { Redirect } from 'react-router';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
@@ -45,10 +46,12 @@ class MakeDocContainer extends React.Component {
             <br></br>
             <div className='page-backdrop'>
               <div className='inputFieldAndButton'>
-                <TextField type='text' label='Doc Name' />
-                <Button className='buttons' variant='contained' color='primary' >
-                  Create
-                </Button>
+                <TextField type='text' label='Doc Name' onChange={(e) => this.props.docNameOnChange(e)} value={this.props.docName}/>
+                <NavLink to='/documents' style={{textDecoration: 'none'}}>
+                  <Button className='buttons' variant='contained' color='primary' onClick={() => {this.props.createDocButton(this.props.docName, this.props.user)}}>
+                    Create
+                  </Button>
+                </NavLink>
               </div>
             </div>
           </div>
@@ -61,8 +64,10 @@ class MakeDocContainer extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
+    editorState: state.editorState,
     user: state.user,
     loggedIn: state.loggedIn,
+    docName: state.docName,
   };
 };
 

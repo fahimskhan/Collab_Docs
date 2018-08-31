@@ -19,19 +19,25 @@ const userSchema = mongoose.Schema({
   }
 })
 
-// const documentSchema = mongoose.Schema({ //zzzz something wrong here!
-//   name: {
-//     type: String,
-//     required: true
-//   },
-//   author: [ { type: Schema.Types.ObjectId, ref: 'User' } ],
-//   collaborators: [ { type: Schema.Types.ObjectId, ref: 'User' } ],
-// })
+const documentSchema = mongoose.Schema({ //zzzz something wrong here!
+  name: {
+    type: String,
+    required: true,
+  },
+  content: {
+    type: String,
+  },
+  author: {
+    type: String,
+    required: true,
+  },
+  // collaborators: [ { type: Schema.Types.ObjectId, ref: 'User' } ],
+})
 
 // Step 2: Create all of your models here, as properties.
 const models = {
   User: mongoose.model('User', userSchema),
-  //Document: mongoose.model('Document', documentSchema)
+  Document: mongoose.model('Document', documentSchema)
 };
 
 // Step 3: Export your models object

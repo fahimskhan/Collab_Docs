@@ -16,7 +16,8 @@ import TableCell from '@material-ui/core/TableCell';
 class DocumentsContainer extends React.Component {
 
   componentDidMount() {
-    //get all docs here
+    this.props.getAllDocs(this.props.user);
+    console.log(this.props.allDocs);
   }
 
   render() {
@@ -70,18 +71,30 @@ class DocumentsContainer extends React.Component {
                     </TableRow>
                   </TableHead>
                     <TableBody>
-                      <TableRow>
-                        <TableCell>Final Project</TableCell>
-                        <TableCell>rohanisarandihijra</TableCell>
-                        <TableCell>
-                          <NavLink to='/editor' style={{textDecoration: 'none'}}>
-                            <i className="material-icons">
-                              edit
-                            </i>
-                          </NavLink>
-                        </TableCell>
-                        <TableCell><i className="material-icons">delete_forever</i></TableCell>
-                      </TableRow>
+                      {
+                        this.props.allDocs && this.props.allDocs.map(doc => (
+                          <TableRow>
+                            <TableCell>{doc.name}</TableCell>
+                            <TableCell>{doc._id}</TableCell>
+                            <TableCell>
+                              <NavLink to='/editor' style={{textDecoration: 'none'}}>
+                                <Button onClick={() => this.props.editDoc(doc._id, this.props.user)}>
+                                  <i className="material-icons">
+                                    edit
+                                  </i>
+                                </Button>
+                              </NavLink>
+                            </TableCell>
+                            <TableCell>
+                              <Button onClick={() => this.props.deleteDoc(doc._id, this.props.user)}>
+                                <i className="material-icons">
+                                  delete_forever
+                                </i>
+                              </Button>
+                            </TableCell>
+                          </TableRow>
+                        ))
+                      }
                     </TableBody>
                 </Table>
               </div>
@@ -98,6 +111,7 @@ const mapStateToProps = (state) => {
   return {
     user: state.user,
     loggedIn: state.loggedIn,
+    allDocs: state.allDocs,
   };
 };
 

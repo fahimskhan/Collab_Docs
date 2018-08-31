@@ -144,7 +144,9 @@ class EditorContainer extends React.Component {
                     </div>
 
                     <h1 className="header">Collab Docs</h1>
+                    <Button onClick={() => this.props.saveDoc(this.props.editorState, this.props.currentDocId)}>
                     <i className="material-icons nav-icons">save</i>
+                  </Button>
                   </div>
               </nav>
               </AppBar>
@@ -212,6 +214,7 @@ const mapStateToProps = (state) => {
     editorState: state.editorState,
     user: state.user,
     loggedIn: state.loggedIn,
+    currentDocId: state.currentDocId,
   };
 };
 
