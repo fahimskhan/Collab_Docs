@@ -13,7 +13,6 @@ class HomeContainer extends React.Component {
   }
 
   render() {
-    console.log('inside render')
     return(
       <div className='home-container'>
         <div className='home-tag'>

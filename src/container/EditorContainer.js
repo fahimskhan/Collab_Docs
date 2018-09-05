@@ -8,6 +8,9 @@ import * as actions from '../actions/index';
 import Button from '@material-ui/core/Button';
 import AppBar from '@material-ui/core/AppBar';
 
+import io from 'socket.io-client';
+const socket = io('http://localhost:3000');
+
 const styleMap = {
   'FONTSIZE_8': {
     fontSize: 8,
@@ -56,7 +59,17 @@ const styleMap = {
   },
 };
 
+let interval;
+
 class EditorContainer extends React.Component {
+
+  componentDidMount() {
+    const outerThis = this;
+    socket.on('updateAll', (doc) => {
+      console.log('socket doc', doc);
+      outerThis.props.updateAll(doc);
+    })
+  }
 
   _onBoldClick() {
     this.props.onChange(RichUtils.toggleInlineStyle(
@@ -80,7 +93,6 @@ class EditorContainer extends React.Component {
   }
 
   _onFontSizeClick(e) {
-    console.log(e.target.getAttribute("value"))
     let fontSize = e.target.getAttribute("value");
     this.props.onChange(RichUtils.toggleInlineStyle(
       this.props.editorState,
@@ -195,7 +207,7 @@ class EditorContainer extends React.Component {
               <div className='editor'>
                 <Editor
                   editorState = {this.props.editorState || EditorState.createEmpty()}
-                  onChange = {this.props.onChange}
+                  onChange = {(e) => this.props.onChange(e, this.props.currentDocId)}
                   customStyleMap = {styleMap}
                 />
               </div>
@@ -208,12 +220,13 @@ class EditorContainer extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = ({editorState, user, loggedIn, currentDocId, socket}) => {
   return {
-    editorState: state.editorState,
-    user: state.user,
-    loggedIn: state.loggedIn,
-    currentDocId: state.currentDocId,
+    editorState,
+    user,
+    loggedIn,
+    currentDocId,
+    // socket,
   };
 };
 

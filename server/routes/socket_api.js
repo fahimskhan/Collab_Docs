@@ -48,11 +48,21 @@ export default function document(socket) {
   //editing the selected doc
   socket.on('editDoc', (data, next) => {
     Document.findById( data.id, (err, doc) => {
+      socket.join(doc._id);
       next(doc);
     });
   });
 
-  // saving the selected doc
+  // saving the selected doc when change is made to the doc
+  socket.on('onChange', (data, next) => {
+    Document.findByIdAndUpdate(data.id, {content: data.content}, (err, doc) => {
+      console.log("@@@", doc)
+      socket.emit('updateAll', doc);
+      //next(err);
+    });
+  });
+
+  // saving the selected doc when save button is pressed
   socket.on('saveDoc', (data, next) => {
     Document.findByIdAndUpdate(data.id, {content: data.content}, (err) => {
       next(err);

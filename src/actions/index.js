@@ -1,12 +1,22 @@
 import axios from 'axios';
 const url = 'http://localhost:3000';
 
-export const onChange = (editorState) => dispatch => {
+export const onChange = (editorState, currentDocId) => dispatch => {
+  console.log('@@@ ', currentDocId, '### ', editorState)
   dispatch ({
     type: 'ON_CHANGE',
-    editorState,
+    editorState: editorState,
+    currentDocId: currentDocId,
   })
 };
+
+export const updateAll = (doc) => dispatch => {
+  console.log(doc);
+  dispatch ({
+    type: 'UPDATE_ALL',
+    content: doc.content,
+  })
+}
 
 export const usernameOnChange = (e) => dispatch => {
   dispatch ({

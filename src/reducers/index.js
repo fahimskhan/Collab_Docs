@@ -6,7 +6,7 @@ socket.on('connect', function() {
   console.log('Connected to socket!');
 });
 
-const initState = {
+const initStates = {
   editorState: EditorState.createEmpty(),
   username: '',
   password: '',
@@ -17,10 +17,14 @@ const initState = {
   myDocs: [],
   sharedDocs: [],
   currentDocId: '',
+  socket: io('http://localhost:3000')
 }
 
 export const webSocketMiddleware = store => next => action => {
-  if (action.type === 'CREATE_DOC') {
+  if (action.type === 'ON_CHANGE') {
+    socket.emit('onChange', {id: action.currentDocId, content: JSON.stringify(convertToRaw(action.editorState.getCurrentContent()))}, () => {})
+    return;
+  } else if (action.type === 'CREATE_DOC') {
     const editorState = EditorState.createEmpty();
     socket.emit('createDoc', {name: action.docName, content: JSON.stringify(convertToRaw(editorState.getCurrentContent())), author: action.user._id}, () => {
       store.dispatch({
@@ -81,6 +85,7 @@ export const webSocketMiddleware = store => next => action => {
         type: 'SHOW_EDITOR',
         editorState: editorState,
         currentDocId: data._id,
+        socket: socket,
       })
     })
     return;
@@ -92,17 +97,19 @@ export const webSocketMiddleware = store => next => action => {
 };
 
 
-export default (state = initState, action) => {
+export default (state = initStates, action) => {
+    console.log("lalalal new", initStates);
   switch (action.type) {
-    case 'ON_CHANGE':
+    case 'UPDATE_ALL':
+    console.log('AAAAA', action);
       return {
         ...state,
-        editorState: action.editorState,
+        editorState: EditorState.createWithContent(convertFromRaw(JSON.parse(action.content)))
       };
     case 'USERNAME_ON_CHANGE':
       return {
         ...state,
-        username: action.username,
+        username: action.username
       };
     case 'PASSWORD_ON_CHANGE':
       return {
@@ -148,6 +155,7 @@ export default (state = initState, action) => {
         ...state,
         editorState: action.editorState,
         currentDocId: action.currentDocId,
+        // socket,
       };
     case 'REGISTER':
       return {
@@ -159,6 +167,7 @@ export default (state = initState, action) => {
         ...state,
         user: action.user,
         loggedIn: true,
+        // socket,
       };
     case 'LOGOUT':
       return {
