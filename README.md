@@ -1,2 +1,2 @@
 # collab_docs_electron_app
-A live, collaborative text editor packaged as a desktop App. Technologies used: -React -Passport for user authentication -Node -Express -Electron to package as desktop application -MongoDB through mongoose -babel -socket.io -draftjs for rich text formatting
+Collaborative text editor as a destop application. The technologies used were React, Passport, Node, Express and Electron which was used to package as a desktop application.  -MongoDB through mongoose, babel, socket.io and draftjs were used for rich text formatting.
